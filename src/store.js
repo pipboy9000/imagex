@@ -1,19 +1,27 @@
 import { writable } from "svelte/store";
+import { defineGrid, extendHex } from "honeycomb-grid";
 import axios from "axios";
 
-export const images = writable([]);
+export const hexes = writable();
 
-export async function getImages(coords) {
-  let img = new Image();
+function getHexes() {
+  let arr = [];
 
-  img.onload = function() {
-    images.update(imgs => {
-      imgs.push(img);
-      return imgs;
-    });
-  };
+  for (var i = 0; i < 30; i++) {
+    let h = {
+      x: Math.floor(Math.random() * 10 - 5),
+      y: Math.floor(Math.random() * 10 - 5)
+    };
+    arr.push(h);
+  }
 
-  img.src = `https://picsum.photos/id/${coords}/200/200`;
-
-  console.log(img);
+  hexes.set(arr);
 }
+
+function init() {
+  getHexes();
+}
+
+export function getGrid() {}
+
+init();
